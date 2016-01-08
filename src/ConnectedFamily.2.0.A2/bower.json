@@ -1,0 +1,12 @@
+{
+    "name": "Connected Family 2.0",
+    "private": true,
+    "dependencies": {
+    },
+    "these-are-the-dependencies-in-the-example": {
+        "bootstrap": "3.3.5",
+        "jquery": "2.1.4",
+        "jquery-validation": "1.14.0",
+        "jquery-validation-unobtrusive": "3.2.4"
+    }
+}

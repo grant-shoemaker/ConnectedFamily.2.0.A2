@@ -1,0 +1,131 @@
+﻿<h3 [hidden]="recipeLoaded">Fetching Recipe...</h3>
+
+<div [hidden]="!recipeLoaded">
+    <h3>Edit Recipe</h3>
+
+    <div class="container-fluid">
+        <form (ngSubmit)="onSubmit()" #heroForm="ngForm">
+            <div class="form-group" style="max-width: 30em;">
+                <label for="recipeTitle">Title</label>
+                <input type="text"
+                       [(ngModel)]="recipe.title"
+                       ngControl="title"
+                       class="form-control"
+                       id="recipeTitle"
+                       placeholder="Title"
+                       required />
+            </div>
+
+            <div class="form-group">
+                <label for="recipeDescr">Description</label>
+                <div>
+                    <textarea id="recipeDescr"
+                              #descrTextarea
+                              [(ngModel)]="recipe.recipeDescr"
+                              (cut)="delayedResize(descrTextarea)"
+                              (paste)="delayedResize(descrTextarea)"
+                              (drop)="delayedResize(descrTextarea)"
+                              (keydown)="delayedResize(descrTextarea)"
+                              ngControl="recipeDescr"
+                              rows="3"
+                              class="form-control autosize"
+                              placeholder="Description"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group" style="max-width: 5em;">
+                <label for="nbrServings">Servings</label>
+                <input type="number"
+                       [(ngModel)]="recipe.nbrServings"
+                       ngControl="nbrServings"
+                       class="form-control"
+                       id="nbrServings"
+                       placeholder="Number of Servings"
+                       required />
+            </div>
+
+            <div class="form-group">
+                <label for="notes">Notes</label>
+                <div>
+                    <textarea id="notes"
+                              #notesTextarea
+                              [(ngModel)]="recipe.notes"
+                              (cut)="delayedResize(notesTextarea)"
+                              (paste)="delayedResize(notesTextarea)"
+                              (drop)="delayedResize(notesTextarea)"
+                              (keydown)="delayedResize(notesTextarea)"
+                              ngControl="notes"
+                              rows="3"
+                              placeholder="Notes"
+                              class="form-control autosize"
+                              required></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="ingredients">Ingredients</label>
+                <div>
+                    <textarea id="ingredients"
+                              #ingrTextarea
+                              [(ngModel)]="ingredients"
+                              (cut)="delayedResize(ingrTextarea)"
+                              (paste)="delayedResize(ingrTextarea)"
+                              (drop)="delayedResize(ingrTextarea)"
+                              (keydown)="delayedResize(ingrTextarea)"
+                              ngControl="ingredients"
+                              rows="3"
+                              placeholder="Ingredients"
+                              class="form-control autosize"
+                              required>
+                        {{ingredients}}
+                    </textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="steps">Steps</label>
+                <div>
+                    <textarea id="steps"
+                              #stepsTextarea
+                              [(ngModel)]="steps"
+                              (cut)="delayedResize(stepsTextarea)"
+                              (paste)="delayedResize(stepsTextarea)"
+                              (drop)="delayedResize(stepsTextarea)"
+                              (keydown)="delayedResize(stepsTextarea)"
+                              ngControl="steps"
+                              rows="3"
+                              placeholder="Steps"
+                              class="form-control autosize"
+                              required></textarea>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" [disabled]="!heroForm.form.valid"><i class="fa fa-floppy-o"></i> Save</button>
+
+            <a class="btn btn-default" (click)="navigate(heroForm, (recipe.recipeId === 0) ? 'Recipes' : 'RecipeDetail')"><i class="fa fa-ban"></i> Cancel</a>
+            <!--<a [routerLink]="['RecipeDetail', { id: recipe.recipeId }]" class="btn btn-default" *ngIf="recipe.recipeId !== 0"><i class="fa fa-ban"></i> Cancel</a>
+            <a [routerLink]="['Recipes']" class="btn btn-default" *ngIf="recipe.recipeId === 0"><i class="fa fa-ban"></i> Cancel</a>-->
+
+
+            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#confirmDeleteModal" *ngIf="recipe.recipeId !== 0"><i class="fa fa-trash-o"></i> Delete</button>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="confirmDeleteLabel">Delete Recipe?</h4>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this recipe?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" (click)="deleteRecipe()" data-dismiss="modal"><i class="fa fa-trash-o"></i> Yes</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-ban"></i> No</button>
+            </div>
+        </div>
+    </div>
+</div>

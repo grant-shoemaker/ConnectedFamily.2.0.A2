@@ -1,0 +1,29 @@
+﻿<h3 [hidden]="recipes.length > 0">Fetching Recipes...</h3>
+
+<div [hidden]="recipes.length === 0">
+    <h3>Recipes</h3>
+
+    <a [routerLink]="['RecipeEdit', { id: 0 }]" class="btn btn-default"><i class="fa fa-plus-circle"></i> New Recipe</a>
+    <div class="input-group fr">
+        <span class="input-group-addon" id="basic-addon1"><i class="fa fa-search"></i></span>
+        <input type="text"
+                (keyup)="filterRecipes(filter.value)"
+                #filter
+                class="form-control"
+                placeholder="Filter recipes..."
+                aria-describedby="basic-addon1">
+        <span *ngIf="filter.value.length > 0" class="input-group-btn">
+            <button class="btn btn-default" type="button" (click)="filter.value = ''; filterRecipes('')"><i class="fa fa-times-circle"></i></button>
+        </span>
+    </div>
+
+    <hr />
+    
+    <div class="list-group">
+        <span *ngFor="#recipe of recipes">
+            <a *ngIf="!filterApplied || recipe.filtered" [routerLink]="['RecipeDetail', { id: recipe.recipeId }]" class="list-group-item" [ngClass]="(recipe.filtered) ? 'list-group-item-success' : ''">
+                {{recipe.title}}
+            </a>
+        </span>
+    </div>
+</div>

@@ -1,0 +1,61 @@
+﻿<h3 [hidden]="recipeLoaded">Fetching Recipe...</h3>
+
+<div [hidden]="!recipeLoaded">
+    <h3>{{recipe.title}}</h3>
+
+    <div class="alert alert-warning">
+        <span class="fa fa-exclamation-triangle"></span>
+        TODO:
+        <ul>
+            <li>Implement "Add Ingredients to List"</li>
+        </ul>
+    </div>
+
+    <div class="well-sm">
+        <label>Description:</label>
+        <span>{{recipe.recipeDescr}}</span>
+    </div>
+
+    <div class="well-sm">
+        <label>Servings:</label>
+        <span>{{recipe.nbrServings}}</span>
+    </div>
+
+    <div class="well-sm">
+        <label>Notes:</label>
+        <span>{{recipe.notes}}</span>
+    </div>
+
+    <label>Ingredients:</label>
+    <div class="well">
+        <ul>
+            <li *ngFor="#ingr of recipe.ingredients">
+                {{ingr.name}}
+            </li>
+        </ul>
+    </div>
+
+    <label>Steps:</label>
+    <div class="well">
+        <ol>
+            <li *ngFor="#step of recipe.steps">
+                {{step.stepDescr}}
+            </li>
+        </ol>
+    </div>
+
+    <a [routerLink]="['Recipes']" class="btn btn-primary"><i class="fa fa-check"></i> Done</a>
+    <a [routerLink]="['RecipeEdit', { id: recipe.recipeId }]" class="btn btn-default"><i class="fa fa-pencil-square-o"></i> Edit</a>
+    <div class="btn-group dropup">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-list"></i> Add to List <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li *ngFor="#list of lists">
+                <a href="#" (click)="addIngredientsToList(list.listId)"><i class="fa fa-circle-thin"></i> {{list.listName}}</a>
+            </li>
+        </ul>
+    </div>
+
+
+</div>

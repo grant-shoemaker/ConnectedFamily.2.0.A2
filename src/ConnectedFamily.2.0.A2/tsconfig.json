@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es5",
+        "sourceMap": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "noLib": false
+    },
+    "compilerOptions-default": {
+        "noImplicitAny": false,
+        "noEmitOnError": true,
+        "removeComments": false
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}

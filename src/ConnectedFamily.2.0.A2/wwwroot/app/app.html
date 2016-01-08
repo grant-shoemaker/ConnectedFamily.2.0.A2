@@ -1,0 +1,24 @@
+﻿<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nav"
+                    aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" [routerLink]="[routes.home.name]">Connected Family</a>
+        </div>
+        <div class="collapse navbar-collapse" id="nav">
+            <ul class="nav navbar-nav">
+                <li><a [routerLink]="[routes.lists.name]" (click)="toggleNavBar()"><i class="fa fa-list"></i> Lists</a></li>
+                <li><a [routerLink]="[routes.recipes.name]" (click)="toggleNavBar()"><i class="fa fa-cutlery"></i> Recipes</a></li>
+                <li><a [routerLink]="[routes.about.name]" (click)="toggleNavBar()"><i class="fa fa-question-circle"></i> About</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div>
+    <router-outlet></router-outlet>
+</div>

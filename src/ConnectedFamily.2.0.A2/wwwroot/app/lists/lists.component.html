@@ -1,0 +1,11 @@
+﻿<h3>Lists</h3>
+
+<p [hidden]="listOfLists.length > 0">Fetching Lists...</p>
+
+<div [hidden]="listOfLists.length === 0">
+    <div class="list-group">
+        <a *ngFor="#list of listOfLists" [routerLink]="['ListDetail', { id: list.listId }]" class="list-group-item">
+            <span class="badge">{{list.itemCount}}</span> {{list.listName}}
+        </a>
+    </div>
+</div>

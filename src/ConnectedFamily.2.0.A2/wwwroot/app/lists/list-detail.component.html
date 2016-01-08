@@ -1,0 +1,29 @@
+﻿<h3 [hidden]="listLoaded">Fetching List...</h3>
+
+<div [hidden]="!listLoaded">
+    <h3>{{list.listName}}</h3>
+
+    <a [routerLink]="['Lists']" class="btn btn-default">Done</a>
+    
+    <div class="alert alert-warning">
+        <i class="fa fa-exclamation-triangle"></i>
+        TODO:
+        <ul>
+            <li>TOGGLE CHECK: tap (need to implement persistence)</li>
+            <li>REMOVE: swipe</li>
+            <li>EDIT: long-press</li>
+            <li>MOVE: drag (add an anchor)</li>
+        </ul>
+    </div>
+
+    <div class="list-group">
+        <a *ngFor="#item of list.items" class="list-group-item" (click)="toggleCheck(item)">
+            <i *ngIf="item.checked" class="fa fa-check-square"></i>
+            <span class="checked-{{item.checked}}">{{item.itemName}}</span>
+        </a>
+    </div>
+    <div>
+        <input type="text" placeholder="New Item Name" />
+        <button>Go</button>
+    </div>
+</div>
