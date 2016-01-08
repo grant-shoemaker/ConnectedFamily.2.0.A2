@@ -4,7 +4,7 @@
     <h3>Edit Recipe</h3>
 
     <div class="container-fluid">
-        <form (ngSubmit)="onSubmit()" #heroForm="ngForm">
+        <form (ngSubmit)="onSubmit()" #recipeForm="ngForm">
             <div class="form-group" style="max-width: 30em;">
                 <label for="recipeTitle">Title</label>
                 <input type="text"
@@ -100,9 +100,9 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary" [disabled]="!heroForm.form.valid"><i class="fa fa-floppy-o"></i> Save</button>
+            <button type="submit" class="btn btn-primary" [disabled]="!recipeForm.form.valid"><i class="fa fa-floppy-o"></i> Save</button>
 
-            <a class="btn btn-default" (click)="navigate(heroForm, (recipe.recipeId === 0) ? 'Recipes' : 'RecipeDetail')"><i class="fa fa-ban"></i> Cancel</a>
+            <a class="btn btn-default" (click)="navigate(recipeForm, (recipe.recipeId === 0) ? 'Recipes' : 'RecipeDetail')"><i class="fa fa-ban"></i> Cancel</a>
             <!--<a [routerLink]="['RecipeDetail', { id: recipe.recipeId }]" class="btn btn-default" *ngIf="recipe.recipeId !== 0"><i class="fa fa-ban"></i> Cancel</a>
             <a [routerLink]="['Recipes']" class="btn btn-default" *ngIf="recipe.recipeId === 0"><i class="fa fa-ban"></i> Cancel</a>-->
 

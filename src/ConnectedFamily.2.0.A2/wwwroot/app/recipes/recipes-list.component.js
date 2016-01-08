@@ -40,7 +40,7 @@ var RecipesComponent = (function () {
     RecipesComponent = __decorate([
         core_1.Component({
             selector: 'lists',
-            templateUrl: './app/recipes/recipes.component.html',
+            templateUrl: './app/recipes/recipes-list.component.html',
             directives: [router_1.ROUTER_DIRECTIVES]
         }), 
         __metadata('design:paramtypes', [recipe_service_1.RecipeService])
@@ -48,4 +48,4 @@ var RecipesComponent = (function () {
     return RecipesComponent;
 })();
 exports.RecipesComponent = RecipesComponent;
-//# sourceMappingURL=recipes.component.js.map
+//# sourceMappingURL=recipes-list.component.js.map

@@ -2,7 +2,7 @@
 import {About} from './about/About';
 import {ListsComponent} from './lists/lists.component';
 import {ListDetailComponent} from './lists/list-detail.component';
-import {RecipesComponent} from './recipes/recipes.component';
+import {RecipesComponent} from './recipes/recipes-list.component';
 import {RecipeDetailComponent} from './recipes/recipe-detail.component';
 import {RecipeEditComponent} from './recipes/recipe-edit.component';
 import {Route, Router} from 'angular2/router';

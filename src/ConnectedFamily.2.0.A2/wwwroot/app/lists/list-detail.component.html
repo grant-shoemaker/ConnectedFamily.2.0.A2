@@ -1,9 +1,30 @@
 ﻿<h3 [hidden]="listLoaded">Fetching List...</h3>
 
 <div [hidden]="!listLoaded">
-    <h3>{{list.listName}}</h3>
+    <h3 *ngIf="!editingListName">
+        {{list.listName}} 
+        <small>
+            <a href="#" data-toggle="tooltip" title="Edit list name" (click)="editListName()"><i class="fa fa-edit"></i></a>
+        </small>
+    </h3> 
+    <h3 *ngIf="editingListName">
+        <form #listNameForm="ngForm">
+            <div class="input-group" style="max-width: 20em;">
+                <input type="text"
+                       [(ngModel)]="list.listName"
+                       ngControl="listName"
+                       class="form-control"
+                       placeholder="List Name"
+                       required />
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" (click)="saveListName()" [disabled]="!listNameForm.form.valid"><i class="fa fa-floppy-o"></i> Save</button>
+                    <button class="btn btn-default" type="button" (click)="cancelListNameEditor()"><i class="fa fa-ban"></i> Cancel</button>
+                </span>
+            </div>
+        </form>
+    </h3>
 
-    <a [routerLink]="['Lists']" class="btn btn-default">Done</a>
+    <a [routerLink]="['Lists']" class="btn btn-default"><i class="fa fa-check"></i> Done</a>
     
     <div class="alert alert-warning">
         <i class="fa fa-exclamation-triangle"></i>

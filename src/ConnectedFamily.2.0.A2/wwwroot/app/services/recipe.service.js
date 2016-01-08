@@ -29,7 +29,18 @@ var RecipeService = (function () {
             .map(function (res) { return res.json(); });
     };
     RecipeService.prototype.saveRecipe = function (recipe) {
-        return jQuery.post(config_1.Config.apiPaths.recipes, { recipe: recipe });
+        if (recipe.recipeId === 0) {
+            return jQuery.post(config_1.Config.apiPaths.recipes, { recipe: recipe });
+        }
+        else {
+            return jQuery.ajax({
+                type: 'PUT',
+                url: config_1.Config.apiPaths.recipes + "/" + recipe.recipeId,
+                data: {
+                    recipe: recipe
+                }
+            });
+        }
     };
     RecipeService.prototype.deleteRecipe = function (recipeId) {
         var s = {

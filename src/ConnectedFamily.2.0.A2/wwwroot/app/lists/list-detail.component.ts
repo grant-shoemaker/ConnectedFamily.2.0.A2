@@ -18,6 +18,8 @@ export class ListDetailComponent implements OnInit {
         orderId: -1
     }
     listLoaded = false;
+    editingListName = false;
+    originalListName = '';
 
     constructor(
         private _routeParams: RouteParams,
@@ -25,6 +27,34 @@ export class ListDetailComponent implements OnInit {
 
     ngOnInit() {
         this.getListDetail();
+    }
+
+    ngAfterViewInit() {
+        jQuery(() => {
+            jQuery('[data-toggle="tooltip"]').tooltip();
+        });
+    }
+
+    editListName() {
+        this.originalListName = this.list.listName;
+        this.editingListName = true;
+        return false;
+    }
+
+    saveListName() {
+        this._listService.saveList(this.list)
+            .then(
+                () => this.closeListNameEditor(),
+                (jqXHR, textStatus, errorThrown) => console.log("ERROR SAVING LIST: ", errorThrown, textStatus, jqXHR));
+    }
+
+    cancelListNameEditor() {
+        this.list.listName = this.originalListName;
+        this.closeListNameEditor();
+    }
+
+    closeListNameEditor() {
+        this.editingListName = false;
     }
 
     private getListDetail() {

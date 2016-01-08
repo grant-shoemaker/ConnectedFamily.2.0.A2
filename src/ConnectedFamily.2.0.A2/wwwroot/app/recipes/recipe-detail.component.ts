@@ -3,7 +3,7 @@ import {RouteParams} from 'angular2/router';
 import {Recipe, RecipeIngredient, RecipeStep, List} from '../models';
 import {RecipeService} from '../services/recipe.service';
 import {ListService} from '../services/list.service';
-import {ROUTER_DIRECTIVES} from 'angular2/router';
+import {Router ,ROUTER_DIRECTIVES} from 'angular2/router';
 
 @Component({
     selector: 'recipe-detail',
@@ -27,7 +27,8 @@ export class RecipeDetailComponent implements OnInit {
     constructor(
         private _routeParams: RouteParams,
         private _recipeService: RecipeService,
-        private _listService: ListService) {
+        private _listService: ListService,
+        private _router: Router) {
     }
 
     ngOnInit() {
@@ -35,7 +36,11 @@ export class RecipeDetailComponent implements OnInit {
     }
 
     addIngredientsToList(listId: number) {
-        alert(`TODO: Adding to list: ${listId}`);
+        this._listService.addRecipeToList(listId, this.recipe.recipeId)
+            .then(
+                (data) => this._router.navigate(['ListDetail', { id: listId }]),
+                (jqXHR, textStatus, errorThrown) => console.log("ERROR ADDING RECIPE TO LIST: ", errorThrown, textStatus, jqXHR));
+        
         return false;
     }
 

@@ -1,3 +1,4 @@
 ﻿interface JQuery {
-    collapse(v:any): JQuery;
+    collapse(v: any): JQuery;
+    tooltip(): JQuery;
 }

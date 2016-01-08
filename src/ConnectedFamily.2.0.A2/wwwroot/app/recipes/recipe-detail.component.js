@@ -13,10 +13,11 @@ var recipe_service_1 = require('../services/recipe.service');
 var list_service_1 = require('../services/list.service');
 var router_2 = require('angular2/router');
 var RecipeDetailComponent = (function () {
-    function RecipeDetailComponent(_routeParams, _recipeService, _listService) {
+    function RecipeDetailComponent(_routeParams, _recipeService, _listService, _router) {
         this._routeParams = _routeParams;
         this._recipeService = _recipeService;
         this._listService = _listService;
+        this._router = _router;
         this.recipe = {
             recipeId: -1,
             title: 'Recipe Detail',
@@ -33,7 +34,9 @@ var RecipeDetailComponent = (function () {
         this.getRecipeDetail();
     };
     RecipeDetailComponent.prototype.addIngredientsToList = function (listId) {
-        alert("TODO: Adding to list: " + listId);
+        var _this = this;
+        this._listService.addRecipeToList(listId, this.recipe.recipeId)
+            .then(function (data) { return _this._router.navigate(['ListDetail', { id: listId }]); }, function (jqXHR, textStatus, errorThrown) { return console.log("ERROR ADDING RECIPE TO LIST: ", errorThrown, textStatus, jqXHR); });
         return false;
     };
     RecipeDetailComponent.prototype.getRecipeDetail = function () {
@@ -53,7 +56,7 @@ var RecipeDetailComponent = (function () {
             templateUrl: './app/recipes/recipe-detail.component.html',
             directives: [router_2.ROUTER_DIRECTIVES]
         }), 
-        __metadata('design:paramtypes', [router_1.RouteParams, recipe_service_1.RecipeService, list_service_1.ListService])
+        __metadata('design:paramtypes', [router_1.RouteParams, recipe_service_1.RecipeService, list_service_1.ListService, router_2.Router])
     ], RecipeDetailComponent);
     return RecipeDetailComponent;
 })();

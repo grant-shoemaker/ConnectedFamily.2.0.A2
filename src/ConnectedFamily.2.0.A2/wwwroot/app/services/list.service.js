@@ -24,6 +24,31 @@ var ListService = (function () {
         return this.http.get(url)
             .map(function (res) { return res.json(); });
     };
+    ListService.prototype.saveList = function (list) {
+        if (list.listId === 0) {
+            return jQuery.post(config_1.Config.apiPaths.lists, { listName: list.listName });
+        }
+        else {
+            return jQuery.ajax({
+                type: 'PUT',
+                url: config_1.Config.apiPaths.lists + "/" + list.listId,
+                data: {
+                    list: list
+                }
+            });
+        }
+    };
+    ListService.prototype.addRecipeToList = function (listId, recipeId) {
+        var url = config_1.Config.apiPaths.lists + "/" + listId + "/addrecipe/" + recipeId;
+        return jQuery.ajax({
+            type: 'PUT',
+            url: url,
+            data: {
+                listId: listId,
+                recipeId: recipeId
+            }
+        });
+    };
     ListService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [http_1.Http])

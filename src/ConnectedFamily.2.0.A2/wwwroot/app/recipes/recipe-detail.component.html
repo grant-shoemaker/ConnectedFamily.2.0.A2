@@ -3,14 +3,6 @@
 <div [hidden]="!recipeLoaded">
     <h3>{{recipe.title}}</h3>
 
-    <div class="alert alert-warning">
-        <span class="fa fa-exclamation-triangle"></span>
-        TODO:
-        <ul>
-            <li>Implement "Add Ingredients to List"</li>
-        </ul>
-    </div>
-
     <div class="well-sm">
         <label>Description:</label>
         <span>{{recipe.recipeDescr}}</span>
@@ -48,11 +40,11 @@
     <a [routerLink]="['RecipeEdit', { id: recipe.recipeId }]" class="btn btn-default"><i class="fa fa-pencil-square-o"></i> Edit</a>
     <div class="btn-group dropup">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fa fa-list"></i> Add to List <span class="caret"></span>
+            <i class="fa fa-plus-square-o"></i> Add to List <span class="caret"></span>
         </button>
         <ul class="dropdown-menu">
             <li *ngFor="#list of lists">
-                <a href="#" (click)="addIngredientsToList(list.listId)"><i class="fa fa-circle-thin"></i> {{list.listName}}</a>
+                <a href="#" (click)="addIngredientsToList(list.listId)"><i class="fa fa-list-ul"></i> {{list.listName}}</a>
             </li>
         </ul>
     </div>

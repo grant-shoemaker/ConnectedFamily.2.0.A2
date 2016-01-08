@@ -22,9 +22,33 @@ var ListDetailComponent = (function () {
             orderId: -1
         };
         this.listLoaded = false;
+        this.editingListName = false;
+        this.originalListName = '';
     }
     ListDetailComponent.prototype.ngOnInit = function () {
         this.getListDetail();
+    };
+    ListDetailComponent.prototype.ngAfterViewInit = function () {
+        jQuery(function () {
+            jQuery('[data-toggle="tooltip"]').tooltip();
+        });
+    };
+    ListDetailComponent.prototype.editListName = function () {
+        this.originalListName = this.list.listName;
+        this.editingListName = true;
+        return false;
+    };
+    ListDetailComponent.prototype.saveListName = function () {
+        var _this = this;
+        this._listService.saveList(this.list)
+            .then(function () { return _this.closeListNameEditor(); }, function (jqXHR, textStatus, errorThrown) { return console.log("ERROR SAVING LIST: ", errorThrown, textStatus, jqXHR); });
+    };
+    ListDetailComponent.prototype.cancelListNameEditor = function () {
+        this.list.listName = this.originalListName;
+        this.closeListNameEditor();
+    };
+    ListDetailComponent.prototype.closeListNameEditor = function () {
+        this.editingListName = false;
     };
     ListDetailComponent.prototype.getListDetail = function () {
         var _this = this;

@@ -6,7 +6,7 @@ import {Routes, APP_ROUTES} from '../routes.config';
 
 @Component({
     selector: 'lists',
-    templateUrl: './app/recipes/recipes.component.html',
+    templateUrl: './app/recipes/recipes-list.component.html',
     directives: [ROUTER_DIRECTIVES]
 })
 export class RecipesComponent implements OnInit {

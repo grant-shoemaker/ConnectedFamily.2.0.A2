@@ -132,7 +132,7 @@ namespace ConnectedFamily.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string listName)
+        public void Post(string listName)
         {
             using (var conn = GetConnection())
             {
@@ -159,7 +159,7 @@ namespace ConnectedFamily.Controllers
 
         // PUT api/values/5
         [HttpPut("{listId}")]
-        public void Put(int listId, [FromBody]Model.List value)
+        public void Put(int listId, Model.List list)
         {
             using (var conn = GetConnection())
             {
@@ -168,8 +168,37 @@ namespace ConnectedFamily.Controllers
                 using (var cmd = new SqlCommand("UPDATE cf.List SET ListName = @ListName, OrderId = @OrderId WHERE ListId = @ListId", conn))
                 {
                     cmd.Parameters.AddWithValue("@ListId", listId);
-                    cmd.Parameters.AddWithValue("@ListName", value.ListName);
-                    cmd.Parameters.AddWithValue("@OrderId", value.OrderId);
+                    cmd.Parameters.AddWithValue("@ListName", list.ListName);
+                    cmd.Parameters.AddWithValue("@OrderId", list.OrderId);
+
+                    cmd.ExecuteNonQuery();
+                }
+
+                conn.Close();
+            }
+        }
+
+        //[Route]
+        [HttpPut("{listId}/addrecipe/{recipeId}")]
+        public void AddRecipeToList(int listId, int recipeId)
+        {
+            var sql = @"
+                DECLARE @O int
+                SELECT @O = MAX(OrderId) FROM cf.ListItem WHERE ListId = @ListId
+
+                INSERT INTO cf.ListItem (ListId, ItemName, Checked, RecipeId, OrderId)
+                SELECT @ListId, i.Name, 0, @RecipeId, (ROW_NUMBER() OVER(ORDER BY OrderId ASC)) + @O
+                FROM cf.RecipeIngredient i
+                WHERE RecipeId = @RecipeId";
+
+            using (var conn = GetConnection())
+            {
+                conn.Open();
+
+                using (var cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@ListId", listId);
+                    cmd.Parameters.AddWithValue("@RecipeId", recipeId);
 
                     cmd.ExecuteNonQuery();
                 }

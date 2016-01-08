@@ -24,7 +24,17 @@ export class RecipeService {
     }
 
     saveRecipe(recipe: Recipe) {
-        return jQuery.post(Config.apiPaths.recipes, { recipe: recipe });
+        if (recipe.recipeId === 0) {
+            return jQuery.post(Config.apiPaths.recipes, { recipe: recipe });
+        } else {
+            return jQuery.ajax({
+                type: 'PUT',
+                url: `${Config.apiPaths.recipes}/${recipe.recipeId}`,
+                data: {
+                    recipe: recipe
+                }
+            });
+        }
     }
 
     deleteRecipe(recipeId: number) {

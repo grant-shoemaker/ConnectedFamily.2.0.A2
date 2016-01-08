@@ -189,42 +189,7 @@ namespace ConnectedFamily.Controllers
 
                 if (recipeId != -1)
                 {
-
-                    sql = @"
-                        INSERT INTO cf.RecipeIngredient (RecipeId, Name, OrderId)
-                        VALUES (@RecipeId, @Name, @OrderId)";
-                    using (var cmd = new SqlCommand(sql, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@RecipeId", recipeId);
-                        cmd.Parameters.AddWithValue("@Name", string.Empty);
-                        cmd.Parameters.AddWithValue("@OrderId", 0);
-
-                        foreach (var ingr in recipe.Ingredients)
-                        {
-                            cmd.Parameters["@Name"].Value = ingr.Name;
-                            cmd.Parameters["@OrderId"].Value = ingr.OrderId;
-
-                            cmd.ExecuteNonQuery();
-                        }
-                    }
-
-                    sql = @"
-                        INSERT INTO cf.RecipeStep (RecipeId, StepNumber, StepDescr)
-                        VALUES (@RecipeId, @StepNumber, @StepDescr)";
-                    using (var cmd = new SqlCommand(sql, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@RecipeId", recipeId);
-                        cmd.Parameters.AddWithValue("@StepNumber", 0);
-                        cmd.Parameters.AddWithValue("@StepDescr", string.Empty);
-
-                        foreach (var step in recipe.Steps)
-                        {
-                            cmd.Parameters["@StepNumber"].Value = step.StepNumber;
-                            cmd.Parameters["@StepDescr"].Value = step.StepDescr;
-
-                            cmd.ExecuteNonQuery();
-                        }
-                    }
+                    InsertIngredientsAndSteps(recipeId, recipe, conn);
                 }
 
                 conn.Close();
@@ -235,7 +200,7 @@ namespace ConnectedFamily.Controllers
 
         // PUT api/recipes/5
         [HttpPut("{recipeId}")]
-        public void Put(int recipeId, [FromBody]Model.Recipe recipe)
+        public int Put(int recipeId, Model.Recipe recipe)
         {
             using (var conn = GetConnection())
             {
@@ -259,7 +224,64 @@ namespace ConnectedFamily.Controllers
                     cmd.ExecuteNonQuery();
                 }
 
+                sql = @"
+                    DELETE FROM cf.RecipeIngredient
+                    WHERE RecipeId = @RecipeId
+
+                    DELETE FROM cf.RecipeStep
+                    WHERE RecipeId = @RecipeId";
+                using (var cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@RecipeId", recipeId);
+
+                    cmd.ExecuteNonQuery();
+                }
+
+                InsertIngredientsAndSteps(recipeId, recipe, conn);
+
                 conn.Close();
+            }
+
+            return recipeId;
+        }
+
+        private void InsertIngredientsAndSteps(int recipeId, Model.Recipe recipe, SqlConnection conn)
+        {
+            var sql = @"
+                    INSERT INTO cf.RecipeIngredient (RecipeId, Name, OrderId)
+                    VALUES (@RecipeId, @Name, @OrderId)";
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                cmd.Parameters.AddWithValue("@RecipeId", recipeId);
+                cmd.Parameters.AddWithValue("@Name", string.Empty);
+                cmd.Parameters.AddWithValue("@OrderId", 0);
+
+
+                foreach (var ingr in recipe.Ingredients)
+                {
+                    cmd.Parameters["@Name"].Value = ingr.Name;
+                    cmd.Parameters["@OrderId"].Value = ingr.OrderId;
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+
+            sql = @"
+                    INSERT INTO cf.RecipeStep (RecipeId, StepNumber, StepDescr)
+                    VALUES (@RecipeId, @StepNumber, @StepDescr)";
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                cmd.Parameters.AddWithValue("@RecipeId", recipeId);
+                cmd.Parameters.AddWithValue("@StepNumber", 0);
+                cmd.Parameters.AddWithValue("@StepDescr", string.Empty);
+
+                foreach (var step in recipe.Steps)
+                {
+                    cmd.Parameters["@StepNumber"].Value = step.StepNumber;
+                    cmd.Parameters["@StepDescr"].Value = step.StepDescr;
+
+                    cmd.ExecuteNonQuery();
+                }
             }
         }
 
